@@ -79,7 +79,7 @@
 *  Message Signing Settings
 ***********************************/
 // Disable to completly disable signing functionality in library
-//#define MY_SIGNING_FEATURE
+#define MY_SIGNING_FEATURE
 
 // Define a suitable timeout for a signature verification session
 // Consider the turnaround from a nonce being generated to a signed message being received

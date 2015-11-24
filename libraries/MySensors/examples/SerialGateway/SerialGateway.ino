@@ -19,25 +19,26 @@
  *******************************
  *
  * DESCRIPTION
- * The ArduinoGateway prints data received from sensors on the serial link. 
+ * The ArduinoGateway prints data received from sensors on the serial link.
  * The gateway accepts input on seral which will be sent out on radio network.
  *
  * The GW code is designed for Arduino Nano 328p / 16MHz
  *
  * Wire connections (OPTIONAL):
- * - Inclusion button should be connected between digital pin 3 and GND  
+ * - Inclusion button should be connected between digital pin 3 and GND
  * - RX/TX/ERR leds need to be connected between +5V (anode) and digital pin 6/5/4 with resistor 270-330R in a series
  *
  * LEDs (OPTIONAL):
  * - To use the feature, uncomment WITH_LEDS_BLINKING in MyConfig.h
  * - RX (green) - blink fast on radio message recieved. In inclusion mode will blink fast only on presentation recieved
  * - TX (yellow) - blink fast on radio message transmitted. In inclusion mode will blink slowly
- * - ERR (red) - fast blink on error during transmission error or recieve crc error 
- * 
+ * - ERR (red) - fast blink on error during transmission error or recieve crc error
+ *
  */
 
-#define NO_PORTB_PINCHANGES  
+#define NO_PORTB_PINCHANGES
 
+#include "MyConfig.h"
 #include <MySigningNone.h>
 #include <MyTransportRFM69.h>
 #include <MyTransportNRF24.h>
@@ -45,9 +46,9 @@
 #include <MySigningAtsha204Soft.h>
 #include <MySigningAtsha204.h>
 
-#include <SPI.h>  
-#include <MyParserSerial.h>  
-#include <MySensor.h>  
+#include <SPI.h>
+#include <MyParserSerial.h>
+#include <MySensor.h>
 #include <stdarg.h>
 #include <PinChangeInt.h>
 #include "GatewayUtil.h"
@@ -58,24 +59,27 @@
 #define RADIO_RX_LED_PIN    6  // Receive led pin
 #define RADIO_TX_LED_PIN    5  // the PCB, on board LED
 
-// NRFRF24L01 radio driver (set low transmit power by default) 
+// NRFRF24L01 radio driver (set low transmit power by default)
 MyTransportNRF24 transport(RF24_CE_PIN, RF24_CS_PIN, RF24_PA_LEVEL_GW);
 //MyTransportRFM69 transport;
+
+uint8_t soft_serial[SHA204_SERIAL_SZ] = { MY_HMAC_KEY };
 
 // Message signing driver (signer needed if MY_SIGNING_FEATURE is turned on in MyConfig.h)
 //MySigningNone signer;
 //MySigningAtsha204Soft signer;
+MySigningAtsha204Soft signer(false, 0, NULL, soft_serial);
 //MySigningAtsha204 signer;
 
-// Hardware profile 
+// Hardware profile
 MyHwATMega328 hw;
 
 // Construct MySensors library (signer needed if MY_SIGNING_FEATURE is turned on in MyConfig.h)
 // To use LEDs blinking, uncomment WITH_LEDS_BLINKING in MyConfig.h
 #ifdef WITH_LEDS_BLINKING
-MySensor gw(transport, hw /*, signer*/, RADIO_RX_LED_PIN, RADIO_TX_LED_PIN, RADIO_ERROR_LED_PIN);
+MySensor gw(transport, hw, signer, RADIO_RX_LED_PIN, RADIO_TX_LED_PIN, RADIO_ERROR_LED_PIN);
 #else
-MySensor gw(transport, hw /*, signer*/);
+MySensor gw(transport, hw, signer);
 #endif
 
 char inputString[MAX_RECEIVE_LENGTH] = "";    // A string to hold incoming commands from serial/ethernet interface
@@ -92,9 +96,9 @@ void output(const char *fmt, ... ) {
    Serial.print(serialBuffer);
 }
 
-  
-void setup()  
-{ 
+
+void setup()
+{
   gw.begin(incomingMessage, 0, true, 0);
 
   setupGateway(INCLUSION_MODE_PIN, INCLUSION_MODE_TIME, output);
@@ -107,18 +111,18 @@ void setup()
   serial(PSTR("0;0;%d;0;%d;Gateway startup complete.\n"),  C_INTERNAL, I_GATEWAY_READY);
 }
 
-void loop()  
-{ 
+void loop()
+{
   gw.process();
 
   checkButtonTriggeredInclusion();
   checkInclusionFinished();
-  
+
   if (commandComplete) {
     // A command wass issued from serial interface
     // We will now try to send it to the actuator
     parseAndSend(gw, inputString);
-    commandComplete = false;  
+    commandComplete = false;
     inputPos = 0;
   }
 }
@@ -133,10 +137,10 @@ void loop()
 void serialEvent() {
   while (Serial.available()) {
     // get the new byte:
-    char inChar = (char)Serial.read(); 
+    char inChar = (char)Serial.read();
     // if the incoming character is a newline, set a flag
     // so the main loop can do something about it:
-    if (inputPos<MAX_RECEIVE_LENGTH-1 && !commandComplete) { 
+    if (inputPos<MAX_RECEIVE_LENGTH-1 && !commandComplete) {
       if (inChar == '\n') {
         inputString[inputPos] = 0;
         commandComplete = true;
@@ -146,12 +150,8 @@ void serialEvent() {
         inputPos++;
       }
     } else {
-       // Incoming message too long. Throw away 
+       // Incoming message too long. Throw away
         inputPos = 0;
     }
   }
 }
-
-
-
-
