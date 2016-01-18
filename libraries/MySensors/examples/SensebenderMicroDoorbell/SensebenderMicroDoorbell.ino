@@ -192,7 +192,7 @@ void setup() {
   gw.present(CHILD_ID_HUM,S_HUM);
 
 #ifdef BATT_SENSOR
-  gw.present(BATT_SENSOR, S_POWER);
+  gw.present(BATT_SENSOR, S_MULTIMETER);
 #endif
 
   // Register binary input sensor to sensor_node (they will be created as child devices)
@@ -317,9 +317,9 @@ void sendBattLevel(bool force)
   long vcc = readVcc();
   if (vcc != lastBattery) {
     lastBattery = vcc;
-
+  siVolt = vcc / 1000;
 #ifdef BATT_SENSOR
-    gw.send(msgBatt.set(vcc));
+    gw.send(msgBatt.set(siVolt));
 #endif
 
     // Calculate percentage
