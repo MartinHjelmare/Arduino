@@ -38,7 +38,6 @@
 
 #define NO_PORTB_PINCHANGES
 
-#include "MyConfig.h"
 #include <MySigningNone.h>
 #include <MyTransportRFM69.h>
 #include <MyTransportNRF24.h>
@@ -63,12 +62,10 @@
 MyTransportNRF24 transport(RF24_CE_PIN, RF24_CS_PIN, RF24_PA_LEVEL_GW);
 //MyTransportRFM69 transport;
 
-uint8_t soft_serial[SHA204_SERIAL_SZ] = { MY_HMAC_KEY };
-
 // Message signing driver (signer needed if MY_SIGNING_FEATURE is turned on in MyConfig.h)
 //MySigningNone signer;
 //MySigningAtsha204Soft signer;
-MySigningAtsha204Soft signer(false, 0, NULL, soft_serial);
+MySigningAtsha204Soft signer(false);
 //MySigningAtsha204 signer;
 
 // Hardware profile
