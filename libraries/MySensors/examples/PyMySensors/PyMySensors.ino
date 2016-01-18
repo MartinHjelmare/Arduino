@@ -28,6 +28,8 @@
  */
 
 #include <MySigningNone.h>
+#include <MySigningAtsha204Soft.h>
+#include <MySigningAtsha204.h>
 #include <MyTransportNRF24.h>
 #include <MyTransportRFM69.h>
 #include <MyHwATMega328.h>
@@ -37,16 +39,17 @@
 #define led 3
 
 // NRFRF24L01 radio driver (set low transmit power by default)
-//MyTransportNRF24 radio(RF24_CE_PIN, RF24_CS_PIN, RF24_PA_LEVEL_GW);
+MyTransportNRF24 transport(RF24_CE_PIN, RF24_CS_PIN, RF24_PA_LEVEL);
 //MyTransportRFM69 radio;
 // Message signing driver (none default)
 //MySigningNone signer;
+MySigningAtsha204Soft signer(true);
 // Select AtMega328 hardware profile
-//MyHwATMega328 hw;
+MyHwATMega328 hw;
 // Construct MySensors library
 //MySensor gw(radio, hw);
-MySensor gw;
-MyMessage msgLight(1, V_LIGHT);
+MySensor gw(transport, hw, signer);
+MyMessage msgLight(1, V_STATUS);
 
 void setup()
 {
@@ -56,7 +59,7 @@ void setup()
   gw.sendSketchInfo("Relay", "1.0");
 
   // Register led as sensor to gw, created as a child device.
-  gw.present(1, S_LIGHT);
+  gw.present(1, S_BINARY);
   // initialize the digital pin as an output.
   pinMode(led, OUTPUT);
   delay(1000);
@@ -75,7 +78,7 @@ void loop()
 
 void incomingMessage(const MyMessage &message) {
   // We only expect one type of message from controller. But we better check anyway.
-  if (message.type==V_LIGHT) {
+  if (message.type==V_STATUS) {
      // Change relay state
      digitalWrite(message.sensor-1+led, message.getBool()?1:0);
 
