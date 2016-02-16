@@ -121,7 +121,7 @@
 #define RF24_BASE_RADIO_ID ((uint64_t)0xA8A8E1FC00LL)
 
 // Enable SOFTSPI for NRF24L01 when using the W5100 Ethernet module
-#define SOFTSPI
+//#define SOFTSPI
 #ifdef SOFTSPI
 	// Define the soft SPI pins used for NRF radio
 	const uint8_t SOFT_SPI_MISO_PIN = 16;
