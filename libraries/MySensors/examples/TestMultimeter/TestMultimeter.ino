@@ -32,6 +32,7 @@
 
 #define CHILD_ID1 1
 #define CHILD_ID2 2
+#define CHILD_ID3 3
 
 MySensor gw;
 int oldValue = -1;
@@ -41,6 +42,7 @@ MyMessage msgImp(CHILD_ID1, V_IMPEDANCE);
 MyMessage msgVolt(CHILD_ID1, V_VOLTAGE);
 MyMessage msgPrefix(CHILD_ID2, V_UNIT_PREFIX);
 MyMessage msgDist(CHILD_ID2, V_DISTANCE);
+MyMessage msgTemp(CHILD_ID3, V_TEMP);
 
 void setup()
 {
@@ -51,24 +53,26 @@ void setup()
   // If S_LIGHT is used, remember to update variable type you send in. See "msg" above.
   gw.present(CHILD_ID1, S_MULTIMETER);
   gw.present(CHILD_ID2, S_DISTANCE);
+  gw.present(CHILD_ID3, S_TEMP);
   gw.send(msgImp.set("10"));
   gw.send(msgVolt.set("3.0"));
-  gw.send(msgPrefix.set("c"));
-  gw.send(msgDist.set("10"));
+  gw.send(msgPrefix.set("cm"));
+  gw.send(msgDist.set("15"));
+  gw.send(msgTemp.set("68"));
 }
 
 
 //  Check if digital input has changed and send in new value
 void loop()
 {
-  gw.wait(5000);
+  gw.wait(20000);
   if (oldValue == -1) {
-    value = 10;
+    value = 68;
   }
   if (value != oldValue) {
      // Send in the new value
-     gw.send(msgDist.set(value==10 ? 10 : 0));
+     gw.send(msgTemp.set(value==68 ? 68 : 72));
      oldValue = value;
-     value = value==10 ? 0 : 10;
+     value = value==68 ? 72 : 68;
   }
 }
