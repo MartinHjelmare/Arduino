@@ -70,7 +70,7 @@ void _begin() {
 	#endif
 
 	// Call before() in sketch (if it exists)
-	if (before) 
+	if (before)
 		before();
 
 	debug(PSTR("Starting " MY_NODE_TYPE " (" MY_CAPABILITIES ", " MYSENSORS_LIBRARY_VERSION ")\n"));
@@ -84,7 +84,7 @@ void _begin() {
 	// Read latest received controller configuration from EEPROM
 	hwReadConfigBlock((void*)&_cc, (void*)EEPROM_CONTROLLER_CONFIG_ADDRESS, sizeof(ControllerConfig));
 	// isMetric is bool, hence empty EEPROM (=0xFF) evaluates to true
-	
+
 	#if defined(MY_OTA_FIRMWARE_FEATURE)
 		// Read firmware config from EEPROM, i.e. type, version, CRC, blocks
 		readFirmwareSettings();
@@ -103,7 +103,7 @@ void _begin() {
 		}
 	#endif
 
-	
+
 
 	#ifdef MY_NODE_LOCK_FEATURE
 		// Check if node has been locked down
@@ -130,7 +130,7 @@ void _begin() {
 			hwWriteConfig(EEPROM_NODE_LOCK_COUNTER, MY_NODE_LOCK_COUNTER_MAX);
 		}
 	#endif
-	
+
 	#if defined(MY_GATEWAY_FEATURE)
 		#if defined(MY_INCLUSION_BUTTON_FEATURE)
 	    	inclusionInit();
@@ -143,8 +143,8 @@ void _begin() {
 			// Nothing more we can do
 			_infiniteLoop();
 		}
-	#endif	
-	
+	#endif
+
 	// Call sketch setup
 	if (setup)
 		setup();
@@ -152,7 +152,7 @@ void _begin() {
 	#if defined(MY_RADIO_FEATURE)
 		presentNode();
 	#endif
-	
+
 	// register node
 	_registerNode();
 
@@ -171,7 +171,7 @@ void _registerNode() {
 			_sendRoute(build(_msgTmp, _nc.nodeId, GATEWAY_ADDRESS, NODE_SENSOR_ID, C_INTERNAL, I_REGISTRATION_REQUEST, false).set(MY_CORE_VERSION));
 		} while (!wait(2000, C_INTERNAL, I_REGISTRATION_RESPONSE) && counter--);
 
-	#else 
+	#else
 		_nodeRegistered = true;
 		debug(PSTR("No registration required\n"));
 	#endif
@@ -188,11 +188,11 @@ void presentNode() {
 			present(NODE_SENSOR_ID, S_ARDUINO_NODE);
 		#endif
 	#else
-		
+
 		#if defined(MY_OTA_FIRMWARE_FEATURE)
 				presentBootloaderInformation();
 		#endif
-		
+
 		// Send signing preferences for this node to the GW
 		signerPresentation(_msgTmp, GATEWAY_ADDRESS);
 
@@ -202,16 +202,16 @@ void presentNode() {
 		#else
 				present(NODE_SENSOR_ID, S_ARDUINO_NODE);
 		#endif
-		
+
 		// Send a configuration exchange request to controller
 		// Node sends parent node. Controller answers with latest node configuration
 		_sendRoute(build(_msgTmp, _nc.nodeId, GATEWAY_ADDRESS, NODE_SENSOR_ID, C_INTERNAL, I_CONFIG, false).set(_nc.parentNodeId));
 
 		// Wait configuration reply.
 		wait(2000, C_INTERNAL, I_CONFIG);
-	
+
 	#endif
-	
+
 	if (presentation)
 		presentation();
 
@@ -255,7 +255,7 @@ bool send(MyMessage &message, bool enableAck) {
 	mSetRequestAck(message, enableAck);
 
 	#if defined(MY_REGISTRATION_FEATURE) && !defined(MY_GATEWAY_FEATURE)
-		if (_nodeRegistered) {	
+		if (_nodeRegistered) {
 			return _sendRoute(message);
 		}
 		else {
@@ -379,17 +379,17 @@ bool _processInternalMessages() {
 			#endif
 		}
 		else return false;
-	} 
+	}
 	else {
 		// sender is a node
 		if (type == I_REGISTRATION_REQUEST) {
 			#if defined(MY_GATEWAY_FEATURE)
 				// register request are exclusively handled by GW/Controller
 				// !!! eventually define if AUTO ACK or register request forwarded to controller
-				#if !defined(MY_REGISTRATION_CONTROLLER) 
+				#if !defined(MY_REGISTRATION_CONTROLLER)
 					// auto register if version compatible
 					bool approveRegistration = true;
-					
+
 					#if defined(MY_CORE_COMPATIBILITY_CHECK)
 							approveRegistration = (_msg.getByte() >= MY_CORE_MIN_VERSION);
 					#endif
@@ -397,7 +397,7 @@ bool _processInternalMessages() {
 				#else
 					return false;	// processing of this request via controller
 				#endif
-			#endif	
+			#endif
 		}
 		else return false;
 	}
@@ -496,12 +496,11 @@ int8_t sleep(uint8_t interrupt, uint8_t mode, unsigned long ms) {
 }
 
 int8_t smartSleep(uint8_t interrupt, uint8_t mode, unsigned long ms) {
-	int8_t ret = sleep(interrupt, mode, ms);
 	// notifiy controller about wake up
 	sendHeartbeat();
 	// listen for incoming messages
 	wait(MY_SMART_SLEEP_WAIT_DURATION);
-	return ret;
+	return sleep(interrupt, mode, ms);
 }
 
 int8_t sleep(uint8_t interrupt1, uint8_t mode1, uint8_t interrupt2, uint8_t mode2, unsigned long ms) {
@@ -559,4 +558,3 @@ void nodeLock(const char* str) {
 	}
 }
 #endif
-

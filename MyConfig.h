@@ -452,7 +452,7 @@
  * http://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Frequenzen/Allgemeinzuteilungen/2013_10_WLAN_2,4GHz_pdf.pdf
  */
 #ifndef MY_RF24_CHANNEL
-#define MY_RF24_CHANNEL	76
+#define MY_RF24_CHANNEL	78
 #endif
 
 /**
