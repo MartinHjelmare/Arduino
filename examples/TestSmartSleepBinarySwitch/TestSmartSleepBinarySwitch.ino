@@ -50,7 +50,7 @@
 #define LED_PIN 5 // LED pin
 
 MyMessage msgButton(CHILD_ID_1, V_TRIPPED);
-MyMessage msgLed(CHILD_ID_2, V_LIGHT);
+MyMessage msgLed(CHILD_ID_2, V_STATUS);
 bool state = false;
 
 void setup()
@@ -66,7 +66,7 @@ void presentation() {
   sendSketchInfo(SN, SV);
   // Present sensor
   present(CHILD_ID_1, S_DOOR);
-  present(CHILD_ID_2, S_LIGHT);
+  present(CHILD_ID_2, S_BINARY);
   send(msgButton.set(0));
   send(msgLed.set(0));
 }
@@ -105,7 +105,7 @@ void loop()
 }
 
 void receive(const MyMessage &message) {
-  if (message.type==V_LIGHT) {
+  if (message.type==V_STATUS) {
      // Change LED state
      digitalWrite(LED_PIN, message.getBool() ? HIGH : LOW);
      send(msgLed.set(message.getBool() ? 1 : 0));
