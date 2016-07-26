@@ -105,7 +105,7 @@ void loop()
 }
 
 void receive(const MyMessage &message) {
-  if (message.type==V_STATUS) {
+  if (message.type==V_STATUS && message.sensor==CHILD_ID_2) {
      // Change LED state
      digitalWrite(LED_PIN, message.getBool() ? HIGH : LOW);
      send(msgLed.set(message.getBool() ? 1 : 0));
