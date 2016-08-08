@@ -194,12 +194,15 @@ void presentation()  {
   sendSketchInfo("Sensebender Micro Bell", RELEASE);
 
   present(CHILD_ID_TEMP,S_TEMP);
+  wait(100);
   present(CHILD_ID_HUM,S_HUM);
 
 #ifdef BATT_SENSOR
+  wait(100);
   present(BATT_SENSOR, S_MULTIMETER);
 #endif
 
+  wait(100);
   present(CHILD_ID_BUTTON, S_DOOR);
 }
 
