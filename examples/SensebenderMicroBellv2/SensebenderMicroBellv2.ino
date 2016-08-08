@@ -214,6 +214,17 @@ void presentation()  {
  ***********************************************/
 void loop() {
 
+  // Short delay to allow buttons to properly settle
+  sleep(5);
+
+  int buttonValue = digitalRead(BUTTON_PIN);
+
+  if (buttonValue != oldValue) {
+     // Send in the new buttonValue
+     send(msg.set(buttonValue==HIGH ? 0 : 1));
+     oldValue = buttonValue;
+  }
+
   measureCount ++;
   sendBattery ++;
   bool forceTransmit = false;
@@ -232,17 +243,6 @@ void loop() {
   }
 
   sendTempHumidityMeasurements(forceTransmit);
-
-  // Short delay to allow buttons to properly settle
-  sleep(5);
-
-  int buttonValue = digitalRead(BUTTON_PIN);
-
-  if (buttonValue != oldValue) {
-     // Send in the new buttonValue
-     send(msg.set(buttonValue==HIGH ? 0 : 1));
-     oldValue = buttonValue;
-  }
 
 #ifdef MY_OTA_FIRMWARE_FEATURE
   if (transmission_occured) {
@@ -289,6 +289,7 @@ void sendTempHumidityMeasurements(bool force)
     Serial.print("H: ");Serial.println(humidity);
 
     send(msgTemp.set(temperature,1));
+    wait(100);
     send(msgHum.set(humidity));
     lastTemperature = temperature;
     lastHumidity = humidity;
