@@ -137,6 +137,7 @@ RunningAverage raHum(AVERAGES);
 #define CHILD_ID_BUTTON 3
 #define BUTTON_PIN 3   // Arduino Digital I/O pin for button/reed switch
 MyMessage msg(CHILD_ID_BUTTON, V_TRIPPED);
+int oldValue = -100;
 
 /****************************************************
  *
@@ -163,7 +164,10 @@ void setup() {
   pinMode(ATSHA204_PIN, INPUT);
   digitalWrite(ATSHA204_PIN, HIGH);
 
-  digitalWrite(TEST_PIN,LOW);
+  digitalWrite(TEST_PIN, LOW);
+
+  // Setup the button
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
 
   digitalWrite(LED_PIN, HIGH);
 
