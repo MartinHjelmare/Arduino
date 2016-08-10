@@ -138,6 +138,7 @@ RunningAverage raHum(AVERAGES);
 #define BUTTON_PIN 3   // Arduino Digital I/O pin for button/reed switch
 MyMessage msg(CHILD_ID_BUTTON, V_TRIPPED);
 int oldValue = -100;
+bool fwUpdateOngoing = false;
 
 /****************************************************
  *
@@ -213,7 +214,15 @@ void presentation()  {
  *
  ***********************************************/
 void loop() {
+  if (fwUpdateOngoing) {
+    fwUpdateOngoing = false;
+    fwUpdateOngoing = wait(OTA_WAIT_PERIOD, C_STREAM, ST_FIRMWARE_RESPONSE);
+  } else {
+    normalFlow();
+  }
+}
 
+void normalFlow() {
   // Short delay to allow buttons to properly settle
   sleep(5);
 
@@ -246,7 +255,7 @@ void loop() {
 
 #ifdef MY_OTA_FIRMWARE_FEATURE
   if (transmission_occured) {
-      wait(OTA_WAIT_PERIOD);
+    fwUpdateOngoing = wait(OTA_WAIT_PERIOD, C_STREAM, ST_FIRMWARE_RESPONSE);
   }
 #endif
 
