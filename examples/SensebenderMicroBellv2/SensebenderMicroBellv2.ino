@@ -48,7 +48,7 @@
  */
 
 // Enable debug prints to serial monitor
-//#define MY_DEBUG
+#define MY_DEBUG
 
 // Define a static node address, remove if you want auto address assignment
 //#deine MY_NODE_ID 1
@@ -219,12 +219,6 @@ void loop() {
 
   int buttonValue = digitalRead(BUTTON_PIN);
 
-  if (buttonValue != oldValue) {
-     // Send in the new buttonValue
-     send(msg.set(buttonValue==HIGH ? 0 : 1));
-     oldValue = buttonValue;
-  }
-
   measureCount ++;
   sendBattery ++;
   bool forceTransmit = false;
@@ -243,6 +237,12 @@ void loop() {
   }
 
   sendTempHumidityMeasurements(forceTransmit);
+  if (buttonValue != oldValue) {
+     // Send in the new buttonValue
+     send(msg.set(buttonValue==HIGH ? 0 : 1));
+     oldValue = buttonValue;
+     transmission_occured = true;
+  }
 
 #ifdef MY_OTA_FIRMWARE_FEATURE
   if (transmission_occured) {
@@ -289,7 +289,6 @@ void sendTempHumidityMeasurements(bool force)
     Serial.print("H: ");Serial.println(humidity);
 
     send(msgTemp.set(temperature,1));
-    wait(100);
     send(msgHum.set(humidity));
     lastTemperature = temperature;
     lastHumidity = humidity;
