@@ -12,6 +12,7 @@
 // Enable and select radio type attached
 #define MY_RADIO_NRF24
 //#define MY_RADIO_RFM69
+#define MY_RF24_CHANNEL	78
 
 #define MY_NODE_ID 254
 
@@ -50,7 +51,7 @@
 //#define ID_S_LIGHT             4
 //#define ID_S_DIMMER            5
 //#define ID_S_COVER             6
-//#define ID_S_TEMP              7
+#define ID_S_TEMP              7
 //#define ID_S_HUM               8
 //#define ID_S_BARO              9
 //#define ID_S_WIND              10
