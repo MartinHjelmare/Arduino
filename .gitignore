@@ -1,6 +1,10 @@
+.pioenvs
+.clang_complete
+.gcc-flags.json
 stino.settings
 *~
 *bak
 MyPrivateConfig.h
 Documentation/html
 doxygen_sqlite3.db
+.piolibdeps
