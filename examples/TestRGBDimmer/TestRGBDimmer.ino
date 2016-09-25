@@ -29,7 +29,7 @@ int currentLevel = 0;  // Current dimmer level.
 MyMessage dimmerMsg(CHILD_ID, V_PERCENTAGE);
 MyMessage lightMsg(CHILD_ID, V_STATUS);
 MyMessage rgbMsg(CHILD_ID, V_RGB);
-
+bool initialValueSent = false;
 
 void before() {
 
@@ -43,19 +43,30 @@ void presentation()
 {
   sendSketchInfo(SN, SV);
   present(CHILD_ID, S_RGB_LIGHT);
-  // Send initial values.
-  send(lightMsg.set(currentLevel > 0 ? 1 : 0));
-  send(dimmerMsg.set(currentLevel));
-  send(rgbMsg.set(rgb));
 }
 
 
 void loop()
 {
-
+  if (!initialValueSent) {
+    Serial.println("Sending initial value");
+    // Send initial values.
+    send(lightMsg.set(currentLevel > 0 ? 1 : 0));
+    send(dimmerMsg.set(currentLevel));
+    send(rgbMsg.set(rgb));
+    Serial.println("Requesting initial value from controller");
+    request(CHILD_ID, V_STATUS);
+    wait(2000, C_SET, V_STATUS);
+  }
 }
 
 void receive(const MyMessage &message) {
+  if (message.type == V_STATUS) {
+    if (!initialValueSent) {
+      Serial.println("Receiving initial value from controller");
+      initialValueSent = true;
+    }
+  }
   if (message.type == V_RGB) {
     // Retrieve the RGB value from the incoming message.
     // RGB LED not implemented, just a dummy print.
