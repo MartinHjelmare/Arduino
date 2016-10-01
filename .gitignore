@@ -1,3 +1,7 @@
 stino.settings
 *~
 *bak
+.clang_complete
+.gcc-flags.json
+.pioenvs/
+.piolibdeps/
