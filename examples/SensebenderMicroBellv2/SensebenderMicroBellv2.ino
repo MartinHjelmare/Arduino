@@ -41,10 +41,10 @@
  * Moved Battery status messages, so they are transmitted together with normal sensor updates (but only every 60th minute)
  *
  * MODIFIED by Martin Hjelmare
- * Sensebender Micro default sketch with addition of binary switch and interrupt,
- * taken from Patrick 'Anticimex' Fallberg's sketch BinarySwitchSleepSensor.
- * Also fixed the bug with the diff calculation for the temperature, and changed
- * vcc 100% rating to 3V, instead of 3.3V.
+ * Add door bell sensor.
+ * Fix battery sensor types.
+ * Add faster loop behavior during OTA FW updates.
+ * Add wait between presentation of sensors.
  */
 
 // Enable debug prints to serial monitor
