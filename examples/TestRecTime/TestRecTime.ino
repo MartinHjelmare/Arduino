@@ -14,9 +14,6 @@
 
 #include <SPI.h>
 #include <MySensors.h>
-//#include <TimeLib.h>
-
-#define CHILD_ID_HUM 0
 
 unsigned long SLEEP_TIME = 30000; // Sleep time between reads (in milliseconds)
 boolean gotTime = false;
@@ -27,7 +24,6 @@ void presentation()
   sendSketchInfo("TestRecTime", "1.0");
 
   // Register all sensors to gw (they will be created as child devices)
-  present(CHILD_ID_HUM, S_HUM);
 
   #ifdef MY_DEBUG
     Serial.println(F("Presentation complete"));

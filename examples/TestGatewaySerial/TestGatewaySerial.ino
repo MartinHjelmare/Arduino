@@ -43,6 +43,7 @@
 // Enable and select radio type attached
 #define MY_RADIO_NRF24
 //#define MY_RADIO_RFM69
+#define MY_RF24_CHANNEL	78
 
 // Set LOW transmit power level as default, if you have an amplified NRF-module and
 // power your radio separately with a good regulator you can turn up PA level.
@@ -57,7 +58,7 @@
 #endif
 
 // Enable inclusion mode
-#define MY_INCLUSION_MODE_FEATURE
+//#define MY_INCLUSION_MODE_FEATURE
 // Enable Inclusion mode button on gateway
 //#define MY_INCLUSION_BUTTON_FEATURE
 
@@ -65,7 +66,7 @@
 //#define MY_INCLUSION_BUTTON_EXTERNAL_PULLUP
 
 // Set inclusion mode duration (in seconds)
-#define MY_INCLUSION_MODE_DURATION 60
+//#define MY_INCLUSION_MODE_DURATION 60
 // Digital pin used for inclusion mode button
 //#define MY_INCLUSION_MODE_BUTTON_PIN  3
 
