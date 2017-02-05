@@ -25,6 +25,7 @@
 #define LED_PIN 5
 
 char rgb[7] = "ffffff"; // RGB value.
+//unsigned long rgb = 16777215;
 int currentLevel = 0;  // Current dimmer level.
 MyMessage dimmerMsg(CHILD_ID, V_PERCENTAGE);
 MyMessage lightMsg(CHILD_ID, V_STATUS);
