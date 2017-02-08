@@ -179,7 +179,7 @@ void setup() {
   Serial.flush();
   Serial.println(F(" - Online!"));
 
-  isMetric = getConfig().isMetric;
+  isMetric = getControllerConfig().isMetric;
   Serial.print(F("isMetric: ")); Serial.println(isMetric);
   raHum.clear();
   sendTempHumidityMeasurements(false);
