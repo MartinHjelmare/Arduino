@@ -70,8 +70,8 @@
 #define MY_GATEWAY_MQTT_CLIENT
 
 // Set this nodes subscripe and publish topic prefix
-#define MY_MQTT_PUBLISH_TOPIC_PREFIX "mygateway1-out"
-#define MY_MQTT_SUBSCRIBE_TOPIC_PREFIX "mygateway1-in"
+#define MY_MQTT_PUBLISH_TOPIC_PREFIX "mysensors/mygateway1-out"
+#define MY_MQTT_SUBSCRIBE_TOPIC_PREFIX "mysensors/mygateway1-in"
 
 // Set MQTT client id
 #define MY_MQTT_CLIENT_ID "mysensors-1"
@@ -98,8 +98,8 @@
 #endif
 
 // Enable these if your MQTT broker requires usenrame/password
-//#define MY_MQTT_USER "username"
-//#define MY_MQTT_PASSWORD "password"
+#define MY_MQTT_USER "mysensors"
+#define MY_MQTT_PASSWORD "PASSWORD"
 
 // Enable MY_IP_ADDRESS here if you want a static ip address (no DHCP)
 //#define MY_IP_ADDRESS 192,168,178,87
@@ -110,7 +110,7 @@
 
 // MQTT broker ip address or url. Define one or the other.
 //#define MY_CONTROLLER_URL_ADDRESS "m20.cloudmqtt.com"
-#define MY_CONTROLLER_IP_ADDRESS 192, 168, 1, 7
+#define MY_CONTROLLER_IP_ADDRESS 192, 168, 1, 17
 
 // The MQTT broker port to to open
 #define MY_PORT 1883
