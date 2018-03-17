@@ -1,15 +1,15 @@
 -I/home/martin/.platformio/packages/framework-arduinoavr/cores/arduino
 -I/home/martin/.platformio/packages/framework-arduinoavr/variants/standard
--I/home/martin/Dev/MySensors/examples/TestGatewaySerial
+-I/home/martin/Dev/MySensors/examples/TestRelayButton
 -I/home/martin/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/EEPROM/src
 -I/home/martin/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/SPI/src
 -I/home/martin/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/Wire/src
 -I/home/martin/Dev/MySensors
+-I/home/martin/Dev/MySensorsArduinoExamples/libraries/Bounce2
 -I/home/martin/Dev/MySensorsArduinoExamples/libraries/Adafruit_BMP085
 -I/home/martin/Dev/MySensorsArduinoExamples/libraries/Adafruit_FONA_Library
 -I/home/martin/Dev/MySensorsArduinoExamples/libraries/Adafruit_NeoPixel
 -I/home/martin/Dev/MySensorsArduinoExamples/libraries/BH1750
--I/home/martin/Dev/MySensorsArduinoExamples/libraries/Bounce2
 -I/home/martin/Dev/MySensorsArduinoExamples/libraries/DHT
 -I/home/martin/Dev/MySensorsArduinoExamples/libraries/DS3232RTC
 -I/home/martin/Dev/MySensorsArduinoExamples/libraries/DallasTemperature
