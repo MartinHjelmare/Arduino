@@ -11,12 +11,12 @@
 // Enable and select radio type attached
 #define MY_RADIO_NRF24
 //#define MY_RADIO_RFM69
-#define MY_RF24_CHANNEL	78
+#define MY_RF24_CHANNEL	80
 
 // Enabled repeater feature for this node
 #define MY_REPEATER_FEATURE
 #define MY_NODE_ID 1
-#include <SPI.h>
+
 #include <MySensors.h>
 #include <Bounce2.h>
 
@@ -32,7 +32,7 @@ bool initialValueSent = false;
 
 MyMessage msg(CHILD_ID, V_STATUS);
 
-void setup()
+void before()
 {
   // Setup the button
   pinMode(BUTTON_PIN, INPUT_PULLUP);
@@ -49,6 +49,11 @@ void setup()
   // Set relay to last known state (using eeprom storage)
   state = loadState(CHILD_ID);
   digitalWrite(RELAY_PIN, state?RELAY_ON:RELAY_OFF);
+}
+
+void setup()
+{
+
 }
 
 void presentation()  {
