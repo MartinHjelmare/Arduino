@@ -46,7 +46,7 @@
 //#define MY_RADIO_RFM69
 //#define MY_RADIO_RFM95
 
-#define MY_RF24_CHANNEL	78
+#define MY_RF24_CHANNEL	82
 
 // Set LOW transmit power level as default, if you have an amplified NRF-module and
 // power your radio separately with a good regulator you can turn up PA level.
