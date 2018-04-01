@@ -11,7 +11,7 @@
 // Enable and select radio type attached
 #define MY_RADIO_NRF24
 //#define MY_RADIO_RFM69
-#define MY_RF24_CHANNEL	78
+#define MY_RF24_CHANNEL	82
 
 // Enable repeater functionality for this node
 #define MY_REPEATER_FEATURE
