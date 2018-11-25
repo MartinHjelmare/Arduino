@@ -2,9 +2,9 @@
 -I/home/martin/.platformio/packages/framework-arduinoavr/variants/standard
 -I/home/martin/Dev/MySensorsArduinoExamples/libraries/Bounce2
 -I/home/martin/Dev/MySensors
+-I/home/martin/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/Wire/src
 -I/home/martin/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/EEPROM/src
 -I/home/martin/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/SPI/src
--I/home/martin/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/Wire/src
 -I/home/martin/Dev/MySensorsArduinoExamples/libraries/Adafruit_BMP085
 -I/home/martin/Dev/MySensorsArduinoExamples/libraries/Adafruit_FONA_Library
 -I/home/martin/Dev/MySensorsArduinoExamples/libraries/Adafruit_NeoPixel
@@ -76,9 +76,11 @@
 -I/home/martin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/4.9.2/include-fixed
 -I/home/martin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/4.9.2/include
 -I/home/martin/.platformio/packages/tool-unity
+-I/home/martin/Dev/MySensors/include
+-I/home/martin/Dev/MySensors/examples/TestRelayButton
 -DF_CPU=16000000L
--DPLATFORMIO=30600
+-DPLATFORMIO=30602
 -DARDUINO_AVR_UNO
 -DARDUINO_ARCH_AVR
--DARDUINO=10620
+-DARDUINO=10805
 -D__AVR_ATmega328P__
