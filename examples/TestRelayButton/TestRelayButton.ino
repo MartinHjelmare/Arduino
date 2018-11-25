@@ -11,7 +11,7 @@
 // Enable and select radio type attached
 #define MY_RADIO_NRF24
 //#define MY_RADIO_RFM69
-#define MY_RF24_CHANNEL	80
+#define MY_RF24_CHANNEL	78
 
 // Enabled repeater feature for this node
 #define MY_REPEATER_FEATURE
@@ -94,6 +94,8 @@ void receive(const MyMessage &message) {
     state = (bool)message.getInt();
     digitalWrite(RELAY_PIN, state?RELAY_ON:RELAY_OFF);
     send(msg.set(state?RELAY_ON:RELAY_OFF));
+		// Temporary testing of battery level reporting
+		sendBatteryLevel(75);
     // Store state in eeprom
     saveState(CHILD_ID, state);
 
