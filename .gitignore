@@ -18,3 +18,4 @@ tags
 .DS_Store
 .piolibdeps
 .pio
+.vscode/
